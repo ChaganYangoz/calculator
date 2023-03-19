@@ -10,7 +10,8 @@ body{
     align-items: center;
     background-color: #4C4B16;
     margin: auto;
-    border-radius: 10%;
+    margin-top: 100px;
+    border-radius: 2rem;
     border: 1px solid black;
 
 }
@@ -25,19 +26,59 @@ button{
     height: 80px;
     border-radius: 50%;
 }
+#equal:hover {
+	background: rgb(134, 228, 134);
+	color: var(--white);
+	transform: translateY(-0.2rem);
+}
+
+.digit:hover{
+    background-color: #d3b354;
+	color: #212121;
+	transform: translateY(-0.2rem);
+}
+
+.op:hover {
+	background: rgb(193, 236, 235);
+	color: #000;
+	transform: translateY(-0.2rem);
+}
+
+.allclear:hover,
+.clear:hover {
+	background: rgb(245, 174, 174);
+	color: #000;
+	transform: translateY(-0.2rem);
+}
+/*Hovers ends here*/
 
 #equal{
     width: 160px;
     border-radius: 2.5rem;
 }
 
-#screen{
-    text-align: right;
-    padding: 5px;
-    width: 300px;
+.screen{
+    min-width: 320px;
     height: 100px;
     margin: 20px;
     background-color: #898121;
-    border-radius:6%;
+    border-radius: 1rem;
     border: 1px solid black;
+}
+
+.previous,
+.current{
+    text-align: right;
+    padding: 10px;
+    color: #000;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.previous{
+    font-size: 1rem;
+}
+
+.current{
+    font-size: 2rem;
 }
