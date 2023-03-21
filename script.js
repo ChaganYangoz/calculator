@@ -16,11 +16,20 @@ class Calculator{
     }
 
     appendNumber(number){
-        this.currentOperand=number;
+        if(number=='.' && this.currentOperand.includes('.'))
+            return;
+        this.currentOperand=this.currentOperand.toString()+number;
+    }
+
+    chooseOperand(operand){
+        this.operand=operand;
+        this.previousOperand=this.currentOperand;
+        this.currentOperand='';
     }
 
     update(){
         this.currentTextElement.innerText=this.currentOperand;
+        this.previousTextElement.innerText=this.previousOperand;
     }
 }
 
@@ -33,6 +42,7 @@ const currentTextElement=document.querySelector('.current');
 
 
 const calculator=new Calculator(previousTextElement,currentTextElement);
+calculator.clearAll();
 
 digits.forEach(digit=>{
     digit.addEventListener('click',()=>{
@@ -40,3 +50,11 @@ digits.forEach(digit=>{
         calculator.update();
     })
 });
+
+
+operators.forEach(operator=>{
+    operator.addEventListener('click',()=>{
+        calculator.chooseOperand(operator.innerText);
+        calculator.update();
+    })
+})
