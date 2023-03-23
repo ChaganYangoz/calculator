@@ -9,6 +9,7 @@ class Calculator{
         this.currentOperand='';
         this.previousOperand='';
         this.operand=undefined;
+        this.update();
     }
 
     delete(){
@@ -31,6 +32,19 @@ class Calculator{
         this.currentTextElement.innerText=this.currentOperand;
         this.previousTextElement.innerText=this.previousOperand;
     }
+
+    compute(){
+        switch(this.operand){
+            case '+':this.currentOperand=(parseInt(this.currentOperand)+parseInt(this.previousOperand)).toString();
+            break;
+            case 'x':this.currentOperand=(parseInt(this.currentOperand)*parseInt(this.previousOperand)).toString();
+            break;
+            case '-':this.currentOperand=(parseInt(this.previousOperand)-parseInt(this.currentOperand)).toString();
+            break;
+            case '÷':this.currentOperand=(parseInt(this.previousOperand)/parseInt(this.currentOperand)).toString();
+            case '%':this.currentOperand=(parseInt(this.previousOperand)%parseInt(this.currentOperand)).toString();
+        }
+    }
 }
 
 const ac=document.querySelector('.allclear');
@@ -39,6 +53,7 @@ const digits=document.querySelectorAll('.digit');
 const operators=document.querySelectorAll('.op');
 const previousTextElement=document.querySelector('.previous');
 const currentTextElement=document.querySelector('.current');
+const equal=document.querySelector('#equal');
 
 
 const calculator=new Calculator(previousTextElement,currentTextElement);
@@ -57,4 +72,17 @@ operators.forEach(operator=>{
         calculator.chooseOperand(operator.innerText);
         calculator.update();
     })
+});
+
+equal.addEventListener('click',()=>{
+    calculator.compute();
+    calculator.update();
+});
+
+ac.addEventListener('click',()=>{
+    calculator.clearAll();
+});
+
+clear.addEventListener('click',()=>{
+    calculator.clear();
 })
