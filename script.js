@@ -13,6 +13,20 @@ class Calculator{
     }
 
     delete(){
+        let del;
+        if(this.currentOperand!=''){
+            del=this.currentOperand;
+            del=del.substring(0,del.length-1);
+            this.currentOperand=del;
+            this.update();
+        }
+        else if(this.operand!=undefined){
+            this.operand=undefined;
+            this.update();
+        }
+        else{
+            del=this.previousOperand;
+        }
 
     }
 
@@ -23,6 +37,9 @@ class Calculator{
     }
 
     chooseOperand(operand){
+        if(this.operand!=undefined){
+            return;
+        }
         this.operand=operand;
         this.previousOperand=this.currentOperand;
         this.currentOperand='';
@@ -42,8 +59,12 @@ class Calculator{
             case '-':this.currentOperand=(parseInt(this.previousOperand)-parseInt(this.currentOperand)).toString();
             break;
             case '÷':this.currentOperand=(parseInt(this.previousOperand)/parseInt(this.currentOperand)).toString();
+            break;
             case '%':this.currentOperand=(parseInt(this.previousOperand)%parseInt(this.currentOperand)).toString();
         }
+        this.previousOperand='';
+        this.operand=undefined;
+        this.update();
     }
 }
 
@@ -63,6 +84,13 @@ digits.forEach(digit=>{
     digit.addEventListener('click',()=>{
         calculator.appendNumber(digit.innerText);
         calculator.update();
+    })
+    digit.addEventListener('keyup',(e)=>{
+        if(e.code==='9'){
+        calculator.appendNumber('9');
+        calculator.update();
+
+        }
     })
 });
 
@@ -84,5 +112,5 @@ ac.addEventListener('click',()=>{
 });
 
 clear.addEventListener('click',()=>{
-    calculator.clear();
+    calculator.delete();
 })
