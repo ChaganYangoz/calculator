@@ -13,21 +13,18 @@ class Calculator{
     }
 
     delete(){
-        let del;
         if(this.currentOperand!=''){
-            del=this.currentOperand;
-            del=del.substring(0,del.length-1);
-            this.currentOperand=del;
+            this.currentOperand=this.currentOperand.substring(0,this.currentOperand.length-1);
             this.update();
         }
         else if(this.operand!=undefined){
             this.operand=undefined;
+            if(this.currentOperand==''){
+                this.currentOperand=this.previousOperand;
+                this.previousOperand='';
+            }
             this.update();
         }
-        else{
-            del=this.previousOperand;
-        }
-
     }
 
     appendNumber(number){
@@ -37,28 +34,39 @@ class Calculator{
     }
 
     chooseOperand(operand){
+        if(this.operand!=undefined && this.previousOperand!="" && this.currentOperand!=''){
+            this.compute();
+            this.previousOperand=this.currentOperand;
+        }
         if(this.operand!=undefined){
             return;
         }
+        if(this.previousOperand==''){
+            this.previousOperand=this.currentOperand;
+        }
         this.operand=operand;
-        this.previousOperand=this.currentOperand;
         this.currentOperand='';
     }
 
     update(){
         this.currentTextElement.innerText=this.currentOperand;
-        this.previousTextElement.innerText=this.previousOperand;
+        if(this.operand==undefined || this.previousOperand==''){
+            this.previousTextElement.innerText=this.previousOperand;
+        }
+        else{
+            this.previousTextElement.innerText=this.previousOperand+' '+this.operand;
+        }
     }
 
     compute(){
         switch(this.operand){
             case '+':this.currentOperand=(parseInt(this.currentOperand)+parseInt(this.previousOperand)).toString();
             break;
-            case 'x':this.currentOperand=(parseInt(this.currentOperand)*parseInt(this.previousOperand)).toString();
+            case '*':this.currentOperand=(parseInt(this.currentOperand)*parseInt(this.previousOperand)).toString();
             break;
             case '-':this.currentOperand=(parseInt(this.previousOperand)-parseInt(this.currentOperand)).toString();
             break;
-            case '÷':this.currentOperand=(parseInt(this.previousOperand)/parseInt(this.currentOperand)).toString();
+            case '/':this.currentOperand=(parseInt(this.previousOperand)/parseInt(this.currentOperand)).toString();
             break;
             case '%':this.currentOperand=(parseInt(this.previousOperand)%parseInt(this.currentOperand)).toString();
         }
@@ -85,13 +93,6 @@ digits.forEach(digit=>{
         calculator.appendNumber(digit.innerText);
         calculator.update();
     })
-    digit.addEventListener('keyup',(e)=>{
-        if(e.code==='9'){
-        calculator.appendNumber('9');
-        calculator.update();
-
-        }
-    })
 });
 
 
@@ -114,3 +115,30 @@ ac.addEventListener('click',()=>{
 clear.addEventListener('click',()=>{
     calculator.delete();
 })
+
+document.addEventListener('keydown', (event) => {
+    var name = event.key;
+    let numberCheck=[0,1,2,3,4,5,6,7,8,9,'.'];
+    let operatorCheck=['*','/','+','-'];
+
+    for(let i=0;i<numberCheck.length;i++){
+        if(numberCheck[i]==name){
+            calculator.appendNumber(name);
+            calculator.update();
+        }
+    }
+
+    for(let i=0;i<operatorCheck.length;i++){
+        if(operatorCheck[i]==name){
+            calculator.chooseOperand(name);
+            calculator.update();
+        }
+    }
+    if(name=="Enter"){
+        calculator.compute();
+    }
+
+    if(name=="Backspace"){
+        calculator.delete();
+    }
+});
