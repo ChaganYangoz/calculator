@@ -60,16 +60,17 @@ class Calculator{
 
     compute(){
         switch(this.operand){
-            case '+':this.currentOperand=(parseInt(this.currentOperand)+parseInt(this.previousOperand)).toString();
+            case '+':this.currentOperand=(parseFloat(this.currentOperand)+parseFloat(this.previousOperand)).toString();
             break;
-            case '*':this.currentOperand=(parseInt(this.currentOperand)*parseInt(this.previousOperand)).toString();
+            case '*':this.currentOperand=(parseFloat(this.currentOperand)*parseFloat(this.previousOperand)).toString();
             break;
-            case '-':this.currentOperand=(parseInt(this.previousOperand)-parseInt(this.currentOperand)).toString();
+            case '-':this.currentOperand=(parseFloat(this.previousOperand)-parseFloat(this.currentOperand)).toString();
             break;
-            case '/':this.currentOperand=(parseInt(this.previousOperand)/parseInt(this.currentOperand)).toString();
+            case '/':this.currentOperand=(parseFloat(this.previousOperand)/parseFloat(this.currentOperand)).toString();
             break;
-            case '%':this.currentOperand=(parseInt(this.previousOperand)%parseInt(this.currentOperand)).toString();
+            case '%':this.currentOperand=(parseFloat(this.previousOperand)%parseFloat(this.currentOperand)).toString();
         }
+        this.currentOperand=Math.round(this.currentOperand * 100) / 100;
         this.previousOperand='';
         this.operand=undefined;
         this.update();
@@ -94,8 +95,6 @@ digits.forEach(digit=>{
         calculator.update();
     })
 });
-
-
 operators.forEach(operator=>{
     operator.addEventListener('click',()=>{
         calculator.chooseOperand(operator.innerText);
